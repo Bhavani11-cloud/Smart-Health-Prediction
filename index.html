@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Health Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    input, button { padding: 10px; width: 100%; margin-top: 10px; }
+    #result { margin-top: 20px; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+  <h2>Smart Health Prediction</h2>
+  <p>Enter symptoms separated by commas (e.g., fever,cough)</p>
+  <input type="text" id="symptomsInput" placeholder="fever,cough,headache" />
+  <button onclick="predictDisease()">Predict Disease</button>
+
+  <div id="result"></div>
+
+  <script>
+    const diseaseDatabase = {
+      "Flu": ["fever", "cough", "headache"],
+      "Common Cold": ["sneezing", "runny nose", "sore throat"],
+      "Malaria": ["fever", "chills", "sweating"],
+      "COVID-19": ["fever", "cough", "shortness of breath"],
+      "Typhoid": ["fever", "weakness", "stomach pain"]
+    };
+
+    function predictDisease() {
+      const input = document.getElementById("symptomsInput").value;
+      const userSymptoms = input.toLowerCase().split(",").map(s => s.trim());
+
+      let maxMatches = 0;
+      let predictedDisease = "Unknown";
+
+      for (const disease in diseaseDatabase) {
+        const symptoms = diseaseDatabase[disease];
+        let matchCount = userSymptoms.filter(symptom => symptoms.includes(symptom)).length;
+
+        if (matchCount > maxMatches) {
+          maxMatches = matchCount;
+          predictedDisease = disease;
+        }
+      }
+
+      document.getElementById("result").textContent = "Predicted Disease: " + predictedDisease;
+    }
+  </script>
+</body>
+</html>
